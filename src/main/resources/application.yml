@@ -1,0 +1,40 @@
+server: 
+  port: ${spring.boot.server.port:8801}
+spring: 
+  application: 
+    name: zuul-server
+
+  servlet:
+    multipart: 
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  ribbonIsolationStrategy: THREAD
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  eager-load: 
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+eureka: 
+  instance: 
+    preferIpAddress: true
+    hostname: ${server.name:}
+  client: 
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl: 
+      defaultZone: ${eureka.uri:http://localhost:8800/eureka}
